@@ -23,9 +23,13 @@ public class PlayerController : MonoBehaviour
 	private bool grounded;
 	private bool doubleJump;
 
+	private PlayerAnimation playerAnimation;
+	private bool canControl = true;
+
 	private void Awake() 
 	{
 		rb = GetComponent<Rigidbody2D>();
+		playerAnimation = GetComponent<PlayerAnimation>();
 	}
 
 	// Use this for initialization
@@ -39,12 +43,21 @@ public class PlayerController : MonoBehaviour
 	{
 		grounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer);
 
+		playerAnimation.SetOnGround(grounded);
+
 		if (grounded)
 			doubleJump = false;
+
+		Debug.Log(rb.velocity.y);
 	}
 
 	private void FixedUpdate() 
-	{
+	{ 
+		if (!canControl)
+        {
+			return;
+        }
+
 		rb.velocity = newMovement;
 
 		if (jump)
@@ -58,6 +71,8 @@ public class PlayerController : MonoBehaviour
 				doubleJump = true;
             }
         }
+
+		playerAnimation.SetVSpeed(rb.velocity.y);
 	}
 
 	public void Jump()
@@ -70,6 +85,8 @@ public class PlayerController : MonoBehaviour
 	{ 
 		float currentSpeed = walkSpeed;
 		newMovement = new Vector2(direction * currentSpeed, rb.velocity.y);
+
+		playerAnimation.SetSpeed((int)Mathf.Abs(direction));
 
 		if (facingRight && direction < 0)
 		{
@@ -87,4 +104,19 @@ public class PlayerController : MonoBehaviour
 
 		transform.Rotate(0, 180, 0);
 	}
+
+	public void DisableControls()
+    {
+		canControl = false;
+    }
+
+	public void EnableControls()
+    {
+		canControl = true;
+    }
+
+	public bool GetGrounded()
+    {
+		return grounded;
+    }
 }

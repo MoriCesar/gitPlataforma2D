@@ -6,6 +6,15 @@ public class PlayerInput : MonoBehaviour
 {
 	public PlayerController playerController;
 
+	private PlayerAnimation playerAnimation;
+
+	private bool crouched;
+
+	private void Awake()
+    {
+		playerAnimation = GetComponent<PlayerAnimation>();
+    }
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -19,7 +28,26 @@ public class PlayerInput : MonoBehaviour
 
 		if (Input.GetButtonDown("Jump"))
         {
-			playerController.Jump();
+			if (!crouched)
+				playerController.Jump();
+        }
+
+		if (Input.GetAxisRaw("Vertical") < 0)
+        {
+			if (!playerController.GetGrounded())
+				return;
+
+			playerAnimation.SetCrouch(true);
+
+			playerController.DisableControls();
+			crouched = true;
+        }
+		else if (Input.GetAxisRaw("Vertical") > -1)
+        {
+			playerAnimation.SetCrouch(false);
+
+			playerController.EnableControls();
+			crouched = false;
         }
 	}
 }
