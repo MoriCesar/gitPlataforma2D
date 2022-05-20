@@ -30,12 +30,19 @@ public class PlayerInput : MonoBehaviour
         {
 			if (!crouched)
 				playerController.Jump();
+			else
+            {
+				playerController.PassThroughPlatform();
+            }
         }
 
 		if (Input.GetAxisRaw("Vertical") < 0)
-        {
+		{
 			if (!playerController.GetGrounded())
+			{
+				playerAnimation.SetCrouch(false);
 				return;
+			}
 
 			playerAnimation.SetCrouch(true);
 
@@ -44,10 +51,13 @@ public class PlayerInput : MonoBehaviour
         }
 		else if (Input.GetAxisRaw("Vertical") > -1)
         {
-			playerAnimation.SetCrouch(false);
+			if (crouched)
+            {
+				crouched = false;
+				playerController.EnableControls();
+			}
 
-			playerController.EnableControls();
-			crouched = false;
+			playerAnimation.SetCrouch(false);
         }
 	}
 }

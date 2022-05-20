@@ -7,12 +7,14 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour 
 {
 	public float jumpForce = 550;
+	public float iceForce = 5;
 	public Transform groundCheck;
 	public float groundRadius = 0.1f;
 	public LayerMask groundLayer;
 
 	[SerializeField]
 	private float walkSpeed;
+	public float maxSpeed = 10;
 
 	private Rigidbody2D rb;
 	private Vector2 newMovement;
@@ -23,8 +25,12 @@ public class PlayerController : MonoBehaviour
 	private bool grounded;
 	private bool doubleJump;
 
+	private bool onIce;
+
 	private PlayerAnimation playerAnimation;
 	private bool canControl = true;
+
+	private PassThroughPlatform platform;
 
 	private void Awake() 
 	{
@@ -52,13 +58,23 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private void FixedUpdate() 
-	{ 
+	{
+		playerAnimation.SetVSpeed(rb.velocity.y);
+
 		if (!canControl)
         {
 			return;
         }
-
-		rb.velocity = newMovement;
+		if (!onIce)
+			rb.velocity = newMovement;
+		else if (onIce)
+        {
+			rb.AddForce(new Vector2(newMovement.x * iceForce, 0), ForceMode2D.Force);
+			if (Mathf.Abs(rb.velocity.x) >= maxSpeed)
+            {
+				rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            }
+        }
 
 		if (jump)
         {
@@ -71,8 +87,6 @@ public class PlayerController : MonoBehaviour
 				doubleJump = true;
             }
         }
-
-		playerAnimation.SetVSpeed(rb.velocity.y);
 	}
 
 	public void Jump()
@@ -118,5 +132,31 @@ public class PlayerController : MonoBehaviour
 	public bool GetGrounded()
     {
 		return grounded;
+    }
+
+	public void SetOnIce(bool state)
+    {
+		onIce = state;
+		if (onIce)
+        {
+			rb.drag = 2;
+        }
+		else
+        {
+			rb.drag = 0;
+        }
+    }
+
+	public void SetPlatform(PassThroughPlatform passPlatform)
+    {
+		platform = passPlatform;
+    }
+
+	public void PassThroughPlatform()
+    {
+		if (platform != null)
+        {
+			platform.PassingThrough();
+        }
     }
 }
