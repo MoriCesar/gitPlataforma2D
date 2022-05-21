@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
 	public void Jump()
     {
-		if(grounded || !doubleJump)
+		if(grounded || (!doubleJump && PlayerSkills.instance.skills.Contains(Skills.DoubleJump) ))
 			jump = true;
     }
 
@@ -122,10 +122,13 @@ public class PlayerController : MonoBehaviour
 	public void DisableControls()
     {
 		canControl = false;
+		jump = false;
+		rb.velocity = Vector2.zero;
     }
 
 	public void EnableControls()
     {
+		newMovement = Vector2.zero;
 		canControl = true;
     }
 
@@ -158,5 +161,10 @@ public class PlayerController : MonoBehaviour
         {
 			platform.PassingThrough();
         }
+    }
+
+	public bool IsOnIce()
+    {
+		return onIce;
     }
 }

@@ -7,12 +7,14 @@ public class PlayerInput : MonoBehaviour
 	public PlayerController playerController;
 
 	private PlayerAnimation playerAnimation;
+	private PlayerAttack playerAttack;
 
 	private bool crouched;
 
 	private void Awake()
     {
 		playerAnimation = GetComponent<PlayerAnimation>();
+		playerAttack = GetComponent<PlayerAttack>();
     }
 
 	// Use this for initialization
@@ -34,6 +36,16 @@ public class PlayerInput : MonoBehaviour
             {
 				playerController.PassThroughPlatform();
             }
+        }
+
+		if (Input.GetButtonDown("Fire1"))
+        {
+			playerAttack.Fire();
+        }
+
+		if (Input.GetButtonDown("Fire2"))
+        {
+			playerAttack.MeleeAttack();
         }
 
 		if (Input.GetAxisRaw("Vertical") < 0)
