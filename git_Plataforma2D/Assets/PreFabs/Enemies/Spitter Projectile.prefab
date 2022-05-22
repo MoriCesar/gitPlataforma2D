@@ -23,7 +23,8 @@ GameObject:
   - component: {fileID: 58206086936804872}
   - component: {fileID: 50797815288903594}
   - component: {fileID: 114619812695267942}
-  m_Layer: 0
+  - component: {fileID: 114143766540591362}
+  m_Layer: 11
   m_Name: Spitter Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +41,7 @@ GameObject:
   - component: {fileID: 4588903031419592}
   - component: {fileID: 198166860473589676}
   - component: {fileID: 199827729993672216}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpitGoop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,6 +110,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.1
+--- !u!114 &114143766540591362
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1525126539425696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd0feceb5cbbd0941bf2bd2fb9f15794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  power: 1
 --- !u!114 &114619812695267942
 MonoBehaviour:
   m_ObjectHideFlags: 1
