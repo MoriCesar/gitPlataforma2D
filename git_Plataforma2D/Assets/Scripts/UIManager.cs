@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class UIManager : MonoBehaviour 
 {
 	public static UIManager instance;
 
 	public GameObject[] lives;
+
+	public Text dialogueText;
+	public Animator dialoguePanel;
 
 	private void Awake()
     {
@@ -24,6 +29,28 @@ public class UIManager : MonoBehaviour
 	{
 		
 	}
+
+	public void SetText(string text)
+    {
+		CancelInvoke();
+		dialogueText.text = text;
+		dialoguePanel.gameObject.SetActive(true);
+    }
+
+	public void SetTextOut()
+    {
+		Invoke("TextOut", 1f);
+    }
+	void TextOut()
+    {
+		dialoguePanel.Play("Dialogue Exit");
+		Invoke("DisableDialoguePanel", 0.5f);
+    }
+
+	void DisableDialoguePanel()
+    {
+		dialoguePanel.gameObject.SetActive(false);
+    }
 
 	public void SetLives(int amount)
     {
