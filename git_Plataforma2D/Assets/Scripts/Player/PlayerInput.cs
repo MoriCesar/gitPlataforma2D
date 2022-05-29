@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-100)]
 public class PlayerInput : MonoBehaviour 
 {
 	public PlayerController playerController;
@@ -9,7 +10,10 @@ public class PlayerInput : MonoBehaviour
 	private PlayerAnimation playerAnimation;
 	private PlayerAttack playerAttack;
 
-	private bool crouched;
+	public bool crouched;
+
+	public bool jumpPressed;
+	public bool clearJump;
 
 	private void Awake()
     {
@@ -26,17 +30,23 @@ public class PlayerInput : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		playerController.Move(Input.GetAxisRaw("Horizontal"));
+		if (UIManager.instance.IsPaused())
+			return;
 
-		if (Input.GetButtonDown("Jump"))
+		if (clearJump)
         {
-			if (!crouched)
-				playerController.Jump();
-			else
-            {
-				playerController.PassThroughPlatform();
-            }
+			jumpPressed = false;
         }
+		clearJump = false;
+
+		jumpPressed = jumpPressed || Input.GetButtonDown("Jump");
+
+		if (jumpPressed)
+        {
+			if (crouched)
+				playerController.PassThroughPlatform();
+        }
+
 
 		if (Input.GetButtonDown("Fire1"))
         {
@@ -72,4 +82,11 @@ public class PlayerInput : MonoBehaviour
 			playerAnimation.SetCrouch(false);
         }
 	}
+
+	private void FixedUpdate()
+    {
+		clearJump = true;
+
+		playerController.Move(Input.GetAxisRaw("Horizontal"));
+    }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class UIManager : MonoBehaviour 
@@ -14,6 +15,11 @@ public class UIManager : MonoBehaviour
 
 	public Text dialogueText;
 	public Animator dialoguePanel;
+
+	public GameObject loadPanel;
+	public GameObject pausePanel;
+
+	private bool paused;
 
 	private void Awake()
     {
@@ -29,7 +35,10 @@ public class UIManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		
+		if (Input.GetKeyDown(KeyCode.Escape))
+        {
+			Pause();
+        }
 	}
 
 	public void SetText(string text)
@@ -77,5 +86,48 @@ public class UIManager : MonoBehaviour
         {
 			keys[i].SetActive(true);
         }
+    }
+
+	public void LoadScene()
+	{
+		Time.timeScale = 1;
+		loadPanel.SetActive(true);
+		Invoke("Loading", 3f);
+	}
+
+	void Loading()
+	{
+		SceneManager.LoadSceneAsync("Menu");
+	}
+
+	public void Pause()
+    {
+		if (!paused && Time.timeScale == 0)
+        {
+			return;
+		}
+			
+		paused = !paused;
+
+		pausePanel.SetActive(paused);
+
+		if (paused)
+        {
+			Time.timeScale = 0;
+        }
+		else
+        {
+			Time.timeScale = 1;
+        }
+    }
+
+	public bool IsPaused()
+    {
+		return paused;
+    }
+
+	public void Quit()
+    {
+		Application.Quit();
     }
 }

@@ -8,16 +8,28 @@ public class Pushable : MonoBehaviour
 
 	private Rigidbody2D rb;
 
+	private AudioSource audioSource;
+
 	private void Awake()
     {
 		rb = GetComponent<Rigidbody2D>();
+		audioSource = GetComponent<AudioSource>();
     }
 	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
+	private void FixedUpdate()
+    {
+		if (Mathf.Abs(rb.velocity.x) > 0)
+        {
+			if (!audioSource.isPlaying)
+            {
+				audioSource.Play();
+            }
+			else
+            {
+				audioSource.Stop();
+            }
+        }
+    }
 
 	private void OnTriggerEnter2D(Collider2D other)
     {

@@ -18,16 +18,25 @@ public class EnemyChomper : MonoBehaviour
 	public float attackDistance;
 	private Transform player;
 	private float nextAttack;
+	public AudioClip attackSfx;
+
+	public AudioClip[] footStepsSfx;
 
 	private Rigidbody2D rb;
 	private bool onGround;
 	private Animator anim;
+
+	private AudioManager audioManager;
+
+	private float nextFlip;
+
 
 	private void Awake()
     {
 		rb = GetComponent<Rigidbody2D>();
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		anim = GetComponent<Animator>();
+		audioManager = GetComponent<AudioManager>();
     }
 
 	// Use this for initialization
@@ -64,6 +73,7 @@ public class EnemyChomper : MonoBehaviour
                 {
 					nextAttack = Time.time + attackRate;
 					anim.SetTrigger("Attack");
+					audioManager.PlayAudio(attackSfx);
                 }
             }
         }
@@ -76,9 +86,18 @@ public class EnemyChomper : MonoBehaviour
 
 	void Flip()
     {
+		if (Time.time < nextFlip)
+			return;
+
+		nextFlip = Time.time + 0.25f;
 		speed *= -1;
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+    }
+
+	public void FootSteps()
+    {
+		audioManager.PlayAudio(footStepsSfx[Random.Range(0, footStepsSfx.Length)]);
     }
 }

@@ -17,13 +17,13 @@ TagManager:
   - Ignore Layer
   - Player
   - Enemy
+  - Cave
+  - Interactable
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Post Process
   - 
   - 
   - 

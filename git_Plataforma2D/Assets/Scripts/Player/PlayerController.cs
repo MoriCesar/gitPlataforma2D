@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
 	public float groundRadius = 0.1f;
 	public LayerMask groundLayer;
 
+	public AudioClip jumpSfx;
+	public AudioClip[] footStepsSfx;
+
 	[SerializeField]
 	private float walkSpeed;
 	public float pushSpeed;
@@ -23,7 +26,6 @@ public class PlayerController : MonoBehaviour
 
 	private bool facingRight = true;
 
-	private bool jump;
 	private bool grounded;
 	private bool doubleJump;
 
@@ -33,17 +35,23 @@ public class PlayerController : MonoBehaviour
 	private bool canControl = true;
 
 	private PassThroughPlatform platform;
+	private AudioManager audioManager;
+
+	private PlayerInput playerInput;
 
 	private void Awake() 
 	{
 		rb = GetComponent<Rigidbody2D>();
 		playerAnimation = GetComponent<PlayerAnimation>();
+		audioManager = GetComponent<AudioManager>();
+		playerInput = GetComponent<PlayerInput>();
 	}
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+		// Teste com 60 frames por segundo
+		//Application.targetFrameRate = 60;
 	}
 	
 	// Update is called once per frame
@@ -56,7 +64,7 @@ public class PlayerController : MonoBehaviour
 		if (grounded)
 			doubleJump = false;
 
-		Debug.Log(rb.velocity.y);
+		//Debug.Log(rb.velocity.y);
 	}
 
 	private void FixedUpdate() 
@@ -78,24 +86,29 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-		if (jump)
+		if (playerInput.jumpPressed)
         {
-			jump = false;
-			rb.velocity = Vector2.zero;
-			rb.AddForce(Vector2.up * jumpForce);
-
-			if (!doubleJump && !grounded)
+			if (!playerInput.crouched)
             {
-				doubleJump = true;
+				if (grounded || (!doubleJump && PlayerSkills.instance.skills.Contains(Skills.DoubleJump)))
+                {
+					audioManager.PlayAudio(jumpSfx);
+					rb.velocity = Vector2.zero;
+					rb.AddForce(Vector2.up * jumpForce);
+
+					if (!doubleJump && !grounded)
+					{
+						doubleJump = true;
+					}
+				}
             }
+			
+			
+
+			
         }
 	}
 
-	public void Jump()
-    {
-		if(grounded || (!doubleJump && PlayerSkills.instance.skills.Contains(Skills.DoubleJump) ))
-			jump = true;
-    }
 
 	public void Move(float direction)
 	{
@@ -134,7 +147,7 @@ public class PlayerController : MonoBehaviour
 	public void DisableControls()
     {
 		canControl = false;
-		jump = false;
+		//jump = false;
 		rb.velocity = Vector2.zero;
     }
 
@@ -178,5 +191,10 @@ public class PlayerController : MonoBehaviour
 	public bool IsOnIce()
     {
 		return onIce;
+    }
+
+	public void FootSteps()
+    {
+		audioManager.PlayAudio(footStepsSfx[Random.Range(0, footStepsSfx.Length)]);
     }
 }
