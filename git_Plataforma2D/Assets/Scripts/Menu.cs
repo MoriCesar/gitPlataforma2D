@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class Menu : MonoBehaviour 
@@ -11,13 +12,36 @@ public class Menu : MonoBehaviour
 
 	public GameObject loadPanel;
 
+	public Button[] stageButtons;
+
+	public Slider masterVolSlider;
+	public Slider musicVolSlider;
+	public Slider sfxVolSlider;
+
+
 	private string currentScene;
 
 	// Use this for initialization
 	void Start () 
 	{
-		
+		UnlockStageButtons();
+		SetVolume();
 	}
+
+	void SetVolume()
+    {
+		masterVolSlider.value = GameManager.instance.masterVol;
+		musicVolSlider.value = GameManager.instance.musicVol;
+		sfxVolSlider.value = GameManager.instance.sfxVol;
+    }
+
+	void UnlockStageButtons()
+    {
+		for (int i = 0; i < GameManager.instance.stageIndex; i++)
+        {
+			stageButtons[i].interactable = true;
+        }
+    }
 
 	float GetVol(float vol)
     {
@@ -53,6 +77,7 @@ public class Menu : MonoBehaviour
 		loadPanel.SetActive(true);
 		currentScene = scene;
 		Invoke("Loading", 3f);
+		GameManager.instance.SavePlayerPrefs(masterVolSlider.value, musicVolSlider.value, sfxVolSlider.value);
     }
 
 	void Loading()

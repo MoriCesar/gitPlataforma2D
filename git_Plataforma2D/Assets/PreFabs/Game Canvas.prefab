@@ -446,7 +446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1844297636633914
 GameObject:
   m_ObjectHideFlags: 1
@@ -778,9 +778,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 114969983639399584}
+        m_MethodName: Pause
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -945,9 +945,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 114969983639399584}
+        m_MethodName: Quit
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1467,9 +1467,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 114969983639399584}
+        m_MethodName: LoadScene
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1740,6 +1740,7 @@ MonoBehaviour:
   dialogueText: {fileID: 114914686719838914}
   dialoguePanel: {fileID: 95237043259457124}
   loadPanel: {fileID: 1021225179108586}
+  pausePanel: {fileID: 1828025827064010}
 --- !u!222 &222035703385513676
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -2130,7 +2131,7 @@ RectTransform:
   - {fileID: 224949207957431434}
   - {fileID: 224478171537662684}
   m_Father: {fileID: 224599603883150524}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2188,7 +2189,7 @@ RectTransform:
   m_Children:
   - {fileID: 224840055360459582}
   m_Father: {fileID: 224599603883150524}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2376,8 +2377,8 @@ RectTransform:
   - {fileID: 224004924894399676}
   - {fileID: 224849099304155570}
   - {fileID: 224337585972799900}
-  - {fileID: 224210989233515420}
   - {fileID: 224155659992922134}
+  - {fileID: 224210989233515420}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

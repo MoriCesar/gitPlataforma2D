@@ -18,14 +18,12 @@ public class PlayerSkills : MonoBehaviour
 		instance = this;
     }
 
-	/*private void Start()
+	private void Start()
     {
-		if(GameManager.instance != null)
+		for (int i = 0; i < GameManager.instance.skills.Count; i++) 
         {
-			for (int i = 0; < GameManager.instance, skills.Count; int++)
-			{
-				skills.Add(GameManager.instance.skills[i]);
-            }
+			skills.Add(GameManager.instance.skills[i]);
         }
-    }*/
+
+    }
 }

@@ -32,6 +32,8 @@ public class PowerPickUp : MonoBehaviour
             {
 				player.SetGun();
             }
+
+			GameManager.instance.skills.Add(skill);
         }
     }
 
